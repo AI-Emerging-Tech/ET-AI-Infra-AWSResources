@@ -1,5 +1,5 @@
 FROM python:3.9-alpine3.13
-LABEL maintainer="shribhavanifarm.com"
+LABEL maintainer="valuemomentum.com"
 
 ENV PYTHONUNBUFFERED 1
 
