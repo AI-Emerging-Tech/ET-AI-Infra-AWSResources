@@ -11,7 +11,7 @@ jobs:
     name: Test and Lint
     secrets: 
       DOCKERHUB_USER: ${{ vars.DOCKERHUB_USER }}
-      DOCKERHUB_TOKEN: ${{ vars.DOCKERHUB_TOKEN }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
   
   deploy:
     name: Deploy
