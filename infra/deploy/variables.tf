@@ -11,14 +11,14 @@ variable "contact" {
   default     = "dheerajvarma.bhupathiraju@valuemomentum.com"
 }
 
-# variable "db_username" {
-#   description = "Username for the recipe app api database"
-#   default     = "idpdbuser"
-# }
+variable "db_username" {
+  description = "Username for the recipe app api database"
+  default     = "idpdbuser"
+}
 
-# variable "db_password" {
-#   description = "Password for the Terraform database"
-# }
+variable "db_password" {
+  description = "Password for the Terraform database"
+}
 
 # variable "ecr_proxy_image" {
 #   description = "Path to the ECR repo with the proxy image"
