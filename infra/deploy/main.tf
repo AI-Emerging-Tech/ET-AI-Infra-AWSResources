@@ -22,7 +22,7 @@ provider "aws" {
       Environment = terraform.workspace
       Project     = var.project
       contact     = var.contact
-      ManagedBy   = "Terraform/deploy"
+      ManageBy   = "Terraform/deploy"
     }
   }
 }

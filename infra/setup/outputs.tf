@@ -18,7 +18,7 @@ output "ecr_repo_proxy" {
   value       = aws_ecr_repository.proxy.repository_url
 }
 
-# output "cd_user_name" {
-#   description = " printion the aws IAM cd user name"
-#   value       = aws_iam_user.cd.name
-# }
+output "cd_user_name" {
+  description = " printion the aws IAM cd user name"
+  value       = aws_iam_user.cd.name
+}
