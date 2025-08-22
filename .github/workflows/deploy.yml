@@ -25,7 +25,7 @@ jobs:
           if [[ $GITHUB_REF == 'refs/heads/prod' ]]; then
             echo "prod" > .workspace
           else
-            echo "demo" > .workspace
+          echo "demo" > .workspace
           fi
       - name: Push to ECR
         env: 
@@ -46,7 +46,7 @@ jobs:
         run: |
           export TF_VAR_ecr_app_image="${{ vars.ECR_REPO_APP }}:$GITHUB_SHA"
           export TF_VAR_ecr_proxy_image="${{ vars.ECR_REPO_PROXY }}:$GITHUB_SHA"
-          workspace = $(cat .workspace)
+          workspace=$(cat .workspace)
           cd infra/
           docker compose run --rm terraform -chdir=deploy/ init
           docker compose run --rm terraform -chdir=deploy/ workspace select -or-create $workspace
