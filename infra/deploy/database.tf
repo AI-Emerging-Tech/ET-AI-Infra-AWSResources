@@ -23,6 +23,7 @@ resource "aws_security_group" "rds" {
     protocol  = "tcp"
     from_port = 5432
     to_port   = 5432
+
     # security_groups = [
     #   aws_security_group.ecs_service.id
     # ]
@@ -39,7 +40,7 @@ resource "aws_db_instance" "main" {
   allocated_storage          = 20
   storage_type               = "gp2"
   engine                     = "postgres"
-  engine_version             = "15.12"
+  engine_version             = "15.3"
   auto_minor_version_upgrade = true
   instance_class             = "db.t4g.micro"
   username                   = var.db_username
