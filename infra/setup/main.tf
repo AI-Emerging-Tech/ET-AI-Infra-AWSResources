@@ -21,7 +21,7 @@ provider "aws" {
       Environment = terraform.workspace
       Project     = var.project
       contact     = var.contact
-      ManageBy   = "Terraform/setup"
+      ManageBy    = "Terraform/setup"
     }
   }
 }
