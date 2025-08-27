@@ -9,11 +9,11 @@ on:
         options:
           - demo
           - prod
-  push:
-    branches:
-      - demo
-      - prod
-        
+  # push:
+  #   branches:
+  #     - demo
+  #     - prod
+
 jobs:
   test-lint:
     uses: ./.github/workflows/test-and-lint.yml
