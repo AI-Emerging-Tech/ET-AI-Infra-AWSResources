@@ -46,6 +46,7 @@ jobs:
           docker push ${{ vars.ECR_REPO_APP }}:$GITHUB_SHA
           docker build --compress -t ${{ vars.ECR_REPO_PROXY }}:$GITHUB_SHA proxy/
           docker push ${{ vars.ECR_REPO_PROXY }}:$GITHUB_SHA
+          
       - name: Terraform apply
         env:
           AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
@@ -55,6 +56,7 @@ jobs:
         run: |
           export TF_VAR_ecr_app_image="${{ vars.ECR_REPO_APP }}:$GITHUB_SHA"
           export TF_VAR_ecr_proxy_image="${{ vars.ECR_REPO_PROXY }}:$GITHUB_SHA"
+          export TF_VAR_ecr_tools_image="${{ vars.ECR_REPO_TOOLS }}:$GITHUB_SHA"
           workspace=$(cat .workspace)
           cd infra/
           docker compose run --rm terraform -chdir=deploy/ init
