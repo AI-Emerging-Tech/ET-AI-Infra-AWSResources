@@ -18,6 +18,11 @@ output "ecr_repo_proxy" {
   value       = aws_ecr_repository.proxy.repository_url
 }
 
+output "ecr_repo_tools" {
+  description = "ECR repository URL for the tool image"
+  value       = aws_ecr_repository.tools.repository_url
+}
+
 output "cd_user_name" {
   description = " printion the aws IAM cd user name"
   value       = aws_iam_user.cd.name

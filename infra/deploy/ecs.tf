@@ -149,6 +149,38 @@ resource "aws_ecs_task_definition" "api" {
           awslogs-stream-prefix = "proxy"
         }
       }
+    },
+    {
+      name              = "et-ai-api-tools"
+      image             = var.ecr_tools_image
+      essential         = true
+      memoryReservation = 256
+      user              = "appuser"
+      portMappings = [
+        {
+          containerPort = 8080
+          hostPort      = 8080
+        }
+      ]
+      environment = [
+        {
+          name  = "ENV"
+          value = "prod"
+        },
+        {
+          name  = "API_LOG_LEVEL"
+          value = "INFO"
+        }
+        # add any other env vars from docker-compose.yml
+      ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = aws_cloudwatch_log_group.ecs_task_logs.name
+          awslogs-region        = data.aws_region.current.name
+          awslogs-stream-prefix = "et-ai-api-tools"
+        }
+      }
     }
   ])
 

@@ -72,6 +72,7 @@ data "aws_iam_policy_document" "ecr" {
     resources = [
       aws_ecr_repository.app.arn,
       aws_ecr_repository.proxy.arn,
+      aws_ecr_repository.tools.arn
     ]
   }
 }
