@@ -158,8 +158,8 @@ resource "aws_ecs_task_definition" "api" {
       # user              = "appuser"
       portMappings = [
         {
-          containerPort = 8080
-          hostPort      = 8080
+          containerPort = 5000
+          hostPort      = 5000
         }
       ]
       environment = [
