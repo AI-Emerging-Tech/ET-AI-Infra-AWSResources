@@ -125,13 +125,10 @@ resource "aws_ecs_task_definition" "api" {
       ]
       environment = [
 
-        { name = "APP_HOST", value = "app" },
-
-        { name = "APP_PORT", value = "8000" },
-
-        { name = "ET_AI_API_TOOLS_HOST", value = "et-ai-api-tools" },
-
-        { name = "ET_AI_API_TOOLS_PORT", value = "5000" }
+        {
+          name  = "APP_HOST"
+          value = "127.0.0.1"
+        }
 
       ]
 
@@ -157,34 +154,19 @@ resource "aws_ecs_task_definition" "api" {
       }
     },
     {
-      name              = "et-ai-api-tools"
+      name              = "tools"
       image             = var.ecr_tools_image
       essential         = true
       memoryReservation = 256
       # user              = "appuser"
-      portMappings = [
-        {
-          containerPort = 5000
-          hostPort      = 5000
-        }
-      ]
-      environment = [
-        {
-          name  = "ENV"
-          value = "prod"
-        },
-        {
-          name  = "API_LOG_LEVEL"
-          value = "INFO"
-        }
-        # add any other env vars from docker-compose.yml
-      ]
+
+
       logConfiguration = {
         logDriver = "awslogs"
         options = {
           awslogs-group         = aws_cloudwatch_log_group.ecs_task_logs.name
           awslogs-region        = data.aws_region.current.name
-          awslogs-stream-prefix = "et-ai-api-tools"
+          awslogs-stream-prefix = "tools"
         }
       }
     }
