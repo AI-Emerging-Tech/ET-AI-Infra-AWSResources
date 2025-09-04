@@ -26,7 +26,7 @@ server {
 
     }
     location /et-ai-tools/ {
-            proxy_pass              http://${ET_AI_TOOLS_HOST}:${ET_AI_TOOLS_PORT};
+            proxy_pass              http://${ET_AI_API_TOOLS_HOST}:${ET_AI_API_TOOLS_PORT};
             proxy_redirect          off;
             proxy_set_header        Host $host;
             proxy_set_header        X-Real-IP $remote_addr;

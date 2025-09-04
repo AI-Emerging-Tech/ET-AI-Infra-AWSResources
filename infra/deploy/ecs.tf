@@ -129,9 +129,9 @@ resource "aws_ecs_task_definition" "api" {
 
         { name = "APP_PORT", value = "8000" },
 
-        { name = "ET_AI_TOOLS_HOST", value = "et-ai-tools" },
+        { name = "ET_AI_API_TOOLS_HOST", value = "et-ai-api-tools" },
 
-        { name = "ET_AI_TOOLS_PORT", value = "5000" }
+        { name = "ET_AI_API_TOOLS_PORT", value = "5000" }
 
       ]
 
