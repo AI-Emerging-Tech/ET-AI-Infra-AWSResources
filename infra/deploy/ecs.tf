@@ -155,7 +155,7 @@ resource "aws_ecs_task_definition" "api" {
       image             = var.ecr_tools_image
       essential         = true
       memoryReservation = 256
-      user              = "appuser"
+      # user              = "appuser"
       portMappings = [
         {
           containerPort = 8080
