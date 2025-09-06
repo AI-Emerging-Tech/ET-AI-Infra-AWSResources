@@ -13,9 +13,10 @@ resource "aws_iam_access_key" "cd" {
 
 data "aws_iam_policy_document" "tf_backend" {
   statement {
-    effect    = "Allow"
-    actions   = ["s3:ListBucket"]
-    resources = ["arn:aws:s3:::${var.tf_state_bucket}"]
+    effect  = "Allow"
+    actions = ["s3:ListBucket"]
+    resources = ["arn:aws:s3:::${var.tf_state_bucket}",
+    "arn:aws:s3:::${var.et_ai_lambda_function}"]
   }
 
   statement {
@@ -24,7 +25,8 @@ data "aws_iam_policy_document" "tf_backend" {
     resources = [
       "arn:aws:s3:::${var.tf_state_bucket}/tf-state-deploy",
       "arn:aws:s3:::${var.tf_state_bucket}/tf-state-deploy/*",
-      "arn:aws:s3:::${var.tf_state_bucket}/tf-state-deploy-env/*"
+      "arn:aws:s3:::${var.tf_state_bucket}/tf-state-deploy-env/*",
+      "arn:aws:s3:::${var.et_ai_lambda_function}/*"
     ]
   }
   statement {
