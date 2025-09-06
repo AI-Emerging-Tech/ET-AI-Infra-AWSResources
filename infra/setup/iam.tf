@@ -13,9 +13,10 @@ resource "aws_iam_access_key" "cd" {
 
 data "aws_iam_policy_document" "tf_backend" {
   statement {
-    effect    = "Allow"
-    actions   = ["s3:ListBucket"]
-    resources = ["arn:aws:s3:::${var.tf_state_bucket}"]
+    effect  = "Allow"
+    actions = ["s3:ListBucket"]
+    resources = ["arn:aws:s3:::${var.tf_state_bucket}",
+    "arn:aws:s3:::${var.et_ai_lambda_function}"]
   }
 
   statement {
@@ -24,7 +25,8 @@ data "aws_iam_policy_document" "tf_backend" {
     resources = [
       "arn:aws:s3:::${var.tf_state_bucket}/tf-state-deploy",
       "arn:aws:s3:::${var.tf_state_bucket}/tf-state-deploy/*",
-      "arn:aws:s3:::${var.tf_state_bucket}/tf-state-deploy-env/*"
+      "arn:aws:s3:::${var.tf_state_bucket}/tf-state-deploy-env/*",
+      "arn:aws:s3:::${var.et_ai_lambda_function}/*"
     ]
   }
   statement {
@@ -49,9 +51,86 @@ resource "aws_iam_user_policy_attachment" "tf_backend" {
   user       = aws_iam_user.cd.name
   policy_arn = aws_iam_policy.tf_backend.arn
 }
+
+############################
+# Policy for Lambda Access #
+############################
+
+data "aws_iam_policy_document" "lambda" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "lambda:CreateFunction",
+      "lambda:UpdateFunctionCode",
+      "lambda:UpdateFunctionConfiguration",
+      "lambda:DeleteFunction",
+      "lambda:GetFunction",
+      "lambda:ListFunctions",
+      "lambda:AddPermission",
+      "lambda:RemovePermission",
+      "lambda:InvokeFunction",
+      "lambda:TagResource",
+      "lambda:UntagResource",
+      "lambda:ListTags"
+    ]
+    resources = ["*"]
+  }
+
+  # Optional: For managing Lambda permissions
+  statement {
+    effect = "Allow"
+    actions = [
+      "iam:PassRole"
+    ]
+    resources = ["arn:aws:iam::*:role/*"]
+  }
+}
+
+resource "aws_iam_policy" "lambda" {
+  name        = "${aws_iam_user.cd.name}-lambda"
+  description = "Allow user to manage Lambda resources."
+  policy      = data.aws_iam_policy_document.lambda.json
+}
+
+resource "aws_iam_user_policy_attachment" "lambda" {
+  user       = aws_iam_user.cd.name
+  policy_arn = aws_iam_policy.lambda.arn
+}
+
+
+###############################
+# Policy for API Gateway Access
+###############################
+
+data "aws_iam_policy_document" "apigateway" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "apigateway:GET",
+      "apigateway:POST",
+      "apigateway:PUT",
+      "apigateway:DELETE",
+      "apigateway:PATCH"
+    ]
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_policy" "apigateway" {
+  name        = "${aws_iam_user.cd.name}-apigateway"
+  description = "Allow user to manage API Gateway resources."
+  policy      = data.aws_iam_policy_document.apigateway.json
+}
+
+resource "aws_iam_user_policy_attachment" "apigateway" {
+  user       = aws_iam_user.cd.name
+  policy_arn = aws_iam_policy.apigateway.arn
+}
+
 #########################
 # Policy for ECR access #
 #########################
+
 
 data "aws_iam_policy_document" "ecr" {
   statement {
